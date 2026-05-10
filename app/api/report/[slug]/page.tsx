@@ -1,5 +1,7 @@
-import { kv } from '@vercel/kv';
 import { notFound } from 'next/navigation';
+import { Redis } from '@upstash/redis';
+
+const redis = Redis.fromEnv();
 
 // Define the expected structure of your AI JSON Output
 interface ScorecardData {
@@ -17,7 +19,7 @@ export default async function ReportPage({ params }: { params: Promise<{ slug: s
   const { slug } = await params;
   
   // Fetch the data from your serverless database using the slug
-  const data: ScorecardData | null = await kv.get(`report:${slug}`);
+  const data: ScorecardData | null = await redis.get(`report:${slug}`);
 
   // If the URL doesn't exist in the database, show a 404 page
   if (!data) {

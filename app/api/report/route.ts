@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { kv } from '@vercel/kv';
+import { Redis } from '@upstash/redis';
+
+const redis = Redis.fromEnv();
 
 export async function POST(req: NextRequest) {
   try {
@@ -20,7 +22,7 @@ export async function POST(req: NextRequest) {
     const slug = `${companySlug}-${uniqueId}`;
 
     // Store the JSON payload in Vercel KV
-    await kv.set(`report:${slug}`, body);
+    await redis.set(`report:${slug}`, body);
 
     // Construct the live URL (handles both local testing and Vercel production)
     const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL 

@@ -8,7 +8,7 @@ interface ScorecardData {
   decision_maker: string;
   overall_score: number;
   dimensions: Array<{ name: string; score: number; reasoning: string }>;
-  improvements: string;
+  improvements: string[];
   summary: string;
 }
 
